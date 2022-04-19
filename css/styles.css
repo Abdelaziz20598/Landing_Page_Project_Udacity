@@ -31,8 +31,16 @@ body {
 }*/
 .navbarclick {
     background: #333;
-    color: #fff;
     transition: ease 0.3s all;
+}
+li.navbarclick a{
+    color: #fff;
+}
+.notSection{
+    background: #fff;
+}
+li.notSection a{
+    color: #000;
 }
 
 .pageHeader{
@@ -61,6 +69,7 @@ body {
     text-align: center;
     padding-top: 15px;
     margin-right: auto;
+    color: #cc1;
 }
 #s2 {
     width: 78px;

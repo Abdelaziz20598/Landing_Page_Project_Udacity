@@ -17,43 +17,40 @@
  * Define Global Variables
  *
  */
-//to ensure that the document.queryselectorAll returns array to make loop on it
- const sections = Array.from(document.querySelectorAll('section'));
- //const sections = [...document.querySelectorAll('section'))];
- //const sections = document.getElementaByTagName('section');
- const navbarUl = document.getElementById('navbarList');
- console.log(navbarUl);
- //const navbarUl = document.querySelector("#navbaList");
+ //to ensure that the document.queryselectorAll returns array to make loop on it
+const sections = Array.from(document.querySelectorAll('section'));
+//const sections = [...document.querySelectorAll('section'))];
+//const sections = document.getElementaByTagName('section');
+const navbarUl = document.getElementById('navbarList');
+console.log(navbarUl);
+//const navbarUl = document.querySelector("#navbaList");
  //to reduce reflow and repaint
- const fragment = document.createDocumentFragment();
- //const fragment = new DocumentFragment();
- let navList = '';
- let id_increment = 1;
- /**
+const fragment = document.createDocumentFragment();
+//const fragment = new DocumentFragment();
+let navList = '';
+let id_increment = 1;
+/**
   * End Global Variables
   * Start Helper Functions
   
   *
   */
 
-
  // Create navbar function to generate the lists and anchors
 function gernerateNavbar() {
     //for(const section of sections){}
     //for(let i = 1; i<= sections.length -1; i++){}
     sections.forEach((section) => {
-      // add html tags for list items
-      // dataset.nav returns DOMStringMap {nav: section 1}
+// add html tags for list items
+// dataset.nav returns DOMStringMap {nav: section 1}
       navList += `<li id="s${id_increment}"><a id="myLink" class="menuLink" href="#${section.id}" style="text-decoration: none;">${section.dataset.nav}</a></li>`;
             id_increment +=1;
-
-
       }); 
       const links = document.getElementsByClassName("menuLink");
       let index_increment = 0;
       console.log(links);
       navbarUl.innerHTML = navList;  
-      //adding smooth and Scroll to anchor ID using scrollTO event
+//adding smooth and Scroll to anchor ID using scrollTO event
     sections.forEach((section) => {
       links[index_increment].addEventListener("click", (e) =>{
         e.preventDefault();
@@ -68,8 +65,9 @@ function gernerateNavbar() {
 }
   gernerateNavbar();
 
+function AddingTransition(){
   //adding transition when clicking
-  let navbar = document.getElementById('navbarList').querySelectorAll('a');
+  let navbar = document.getElementById('navbarList').querySelectorAll('li');
   console.log(navbar);
 // itrate in navbar items list
 navbar.forEach((item) => {
@@ -82,13 +80,13 @@ navbar.forEach((item) => {
     item.classList.add('navbarclick');
   });
 });
-
+}
+AddingTransition();
 
 
 function addingActiveClass(section){
-
-
   const id =  section.getAttribute('id'); 
+  console.log(id);
   //document.getElementById(id).classList.add("your-active-class");
   document.querySelector(`#${id}`).classList.add("your-active-class");
 
@@ -100,26 +98,50 @@ function removingActiveClass(section){
   //document.querySelector(`#${id}`).classList.remove("your-active-class");
 }
 
+function KeepHighlight(section){
+
+  let navbar = document.getElementById('navbarList').querySelectorAll('li');
+ /* const id = section.getAttribute('id');
+  let sec = document.getElementById(id);*/
+  navbar.forEach((item) => {
+    // remove every navbarclick class added before in any list item
+    item.classList.remove('navbarclick');
+    if (item.querySelector('a').text === section.dataset.nav){
+      console.log(`true it is ${section.dataset.nav}`)
+      // add the class on the button
+      item.classList.add('navbarclick');
+    }
+  });
+}
+
+/*function highlightOff(){
+  let navbar = document.getElementById('navbarList').querySelectorAll('li');
+  navbar.forEach((item) => {
+    item.classList.remove('navbarclick');
+  });
+}*/
 //function that making the 'your-active-class' active and making the circle around the sections  when sliding down and the section is in the viewport
 function ActiveClass(){
-
   sections.forEach((sec) =>{
-
     let offset = sec.getBoundingClientRect();
-    console.log(offset.top);
-    if(offset.top <= 150 && offset.bottom >=150){
+    let offsetTop = offset.top;
+    console.log(offsetTop);
+    if(offsetTop <= 50 && offset.bottom >=50){
       addingActiveClass(sec);
+      KeepHighlight(sec);
     }
 
-    else{
+    /*else if(offsetTop > 50){
+      highlightOff();
+      removingActiveClass(sec);
+    }*/
+
+    else {
       removingActiveClass(sec);
     }
   });
-
-
 }
 
+
 document.addEventListener('scroll', ActiveClass);
-
-
 
