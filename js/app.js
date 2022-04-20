@@ -98,21 +98,7 @@ function removingActiveClass(section){
   //document.querySelector(`#${id}`).classList.remove("your-active-class");
 }
 
-function KeepHighlight(section){
 
-  let navbar = document.getElementById('navbarList').querySelectorAll('li');
- /* const id = section.getAttribute('id');
-  let sec = document.getElementById(id);*/
-  navbar.forEach((item) => {
-    // remove every navbarclick class added before in any list item
-    item.classList.remove('navbarclick');
-    if (item.querySelector('a').text === section.dataset.nav){
-      console.log(`true it is ${section.dataset.nav}`)
-      // add the class on the button
-      item.classList.add('navbarclick');
-    }
-  });
-}
 
 /*function highlightOff(){
   let navbar = document.getElementById('navbarList').querySelectorAll('li');
@@ -128,7 +114,6 @@ function ActiveClass(){
     console.log(offsetTop);
     if(offsetTop <= 50 && offset.bottom >=50){
       addingActiveClass(sec);
-      KeepHighlight(sec);
     }
 
     /*else if(offsetTop > 50){
@@ -144,4 +129,24 @@ function ActiveClass(){
 
 
 document.addEventListener('scroll', ActiveClass);
+document.addEventListener('scroll', () =>{
+  let current = '';
+  sections.forEach((sec)=>{
+    let offset = sec.getBoundingClientRect();
+    let offsetTop = offset.top;
+    if(offsetTop <= 50 && offset.bottom >=50){
+      current = sec.dataset.nav
+    }
+  });
+  console.log(`this is the current section ${current}`);
+  let navbar = document.getElementById('navbarList').querySelectorAll('li');
+  navbar.forEach((item)=>{
+    item.classList.remove('navbarclick');
+    console.log(`anchor ${item.querySelector('a')}`);
+    if (item.querySelector('a').text === current){
+      console.log(`true it is ${current}`);
+        item.classList.add('navbarclick');
+      }
+  });
 
+});
